@@ -1,0 +1,96 @@
+{
+  "data": {
+    "total_campaigns_count": 4,
+    "status_wise_details": [
+      { "status": "LIVE", "count": 2 },
+      { "status": "PAUSED", "count": 2 },
+      { "status": "UPCOMING", "count": 0 }
+    ],
+    "campaigns": [
+      {
+        "campaign_id": 27630001,
+        "campaign_name": "Ad_I 25 Oct 2026 | 09:12",
+        "start_date": "2026-10-25T09:12:00+05:30",
+        "end_date": null,
+        "total_budget": 300,
+        "budget_type": "DAILY_BUDGET",
+        "status": "LIVE",
+        "catalog_id": 595779889,
+        "perf_details": {
+          "budget_utilised": 240,
+          "cpc": 0.33,
+          "revenue": 0,
+          "roi": 0,
+          "total_views": 18210,
+          "total_clicks": 727,
+          "conversion_rate": 0
+        }
+      },
+      {
+        "campaign_id": 27630002,
+        "campaign_name": "Ad_K 25 Oct 2026 | 10:30",
+        "start_date": "2026-10-25T10:30:00+05:30",
+        "end_date": null,
+        "total_budget": 500,
+        "budget_type": "DAILY_BUDGET",
+        "status": "LIVE",
+        "catalog_id": 595779890,
+        "perf_details": {
+          "budget_utilised": 120,
+          "cpc": 0.29,
+          "revenue": 1890,
+          "order_count": 9,
+          "roi": 15.75,
+          "total_views": 9001,
+          "total_clicks": 413,
+          "conversion_rate": 2.18,
+          "average_order_value": 210,
+          "cpo": 13.33
+        }
+      },
+      {
+        "campaign_id": 27626237,
+        "campaign_name": "Ad_I 24 Oct 2026 | 09:01",
+        "start_date": "2026-10-24T09:01:25+05:30",
+        "end_date": "2026-10-24T15:58:03+05:30",
+        "total_budget": 300,
+        "budget_type": "DAILY_BUDGET",
+        "status": "PAUSED",
+        "reason": "SUPPLIER_ABORTED",
+        "catalog_id": 595779889,
+        "perf_details": {
+          "budget_utilised": 159.15,
+          "cpc": 0.31,
+          "revenue": 1484,
+          "order_count": 7,
+          "roi": 9.32,
+          "total_views": 15703,
+          "total_clicks": 512,
+          "conversion_rate": 1.37,
+          "average_order_value": 212,
+          "cpo": 22.75
+        }
+      },
+      {
+        "campaign_id": 27630003,
+        "campaign_name": "Ad_J 25 Oct 2026 | 08:05",
+        "start_date": "2026-10-25T08:05:00+05:30",
+        "end_date": "2026-10-25T11:40:00+05:30",
+        "total_budget": 200,
+        "budget_type": "DAILY_BUDGET",
+        "status": "PAUSED",
+        "reason": "SUPPLIER_ABORTED",
+        "catalog_id": 595779891,
+        "perf_details": {
+          "budget_utilised": 50,
+          "cpc": 0.4,
+          "revenue": 0,
+          "roi": 0,
+          "total_views": 3100,
+          "total_clicks": 125,
+          "conversion_rate": 0
+        }
+      }
+    ]
+  }
+}

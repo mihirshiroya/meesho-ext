@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Settings · Meesho Ads Spend Monitor</title>
+  <link rel="stylesheet" href="ui.css" />
+  <style>
+    .page { max-width: 860px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 18px; }
+    .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+    .status-grid div { background: #fbfafc; border: 1px solid var(--border); border-radius: 8px; padding: 10px; }
+    .status-grid span { display: block; font-size: 12px; color: var(--muted); }
+    .sticky-save { position: sticky; bottom: 0; background: var(--bg); padding: 12px 0; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="spread">
+      <div class="stack-sm">
+        <h1>Settings</h1>
+        <p class="muted">These settings apply to <strong>this Chrome profile only</strong>. Each profile monitors its own Meesho shop.</p>
+      </div>
+      <a class="btn" href="welcome.html">Setup &amp; help guide</a>
+    </header>
+
+    <section class="card stack" aria-labelledby="h-status">
+      <div class="spread"><h2 id="h-status">Status</h2><span class="chip" id="statusChip">…</span></div>
+      <div class="status-grid">
+        <div><span>Account</span><strong id="stAccount">—</strong></div>
+        <div><span>Last success</span><strong id="stSuccess">—</strong></div>
+        <div><span>Next check</span><strong id="stNext">—</strong></div>
+        <div><span>Last error</span><strong id="stError">None</strong></div>
+      </div>
+      <div class="row">
+        <button class="btn btn-primary" id="checkNow" type="button">Check now</button>
+        <button class="btn" id="testAlert" type="button">Send test alert</button>
+        <button class="btn btn-danger" id="resume" type="button" hidden>Resume monitoring</button>
+        <span class="status-line" id="actionStatus" role="status"></span>
+      </div>
+    </section>
+
+    <form id="form" class="stack">
+      <section class="card stack" aria-labelledby="h-limits">
+        <div class="stack-sm"><h2 id="h-limits">Shop and limits</h2><p class="small muted">Amounts are in ₹. Leave a field empty to turn that rule off. Rules apply to LIVE campaigns; the daily total counts every campaign that started today in IST.</p></div>
+        <div class="grid-2">
+          <label class="field">Shop name (label)<input type="text" name="label" placeholder="e.g. Shop A" /><span class="hint">Starts every alert message. Defaults to the account identifier.</span></label>
+          <label class="field">Per-campaign limit (₹)<input type="number" name="perCampaignLimit" min="0" step="1" /><span class="hint">Alert when one campaign&apos;s spend reaches this.</span></label>
+          <label class="field">Daily total limit (₹)<input type="number" name="dailyTotalLimit" min="0" step="1" /><span class="hint">Alert when today&apos;s total spend reaches this.</span></label>
+          <label class="field">Budget warning (%)<input type="number" name="budgetPctWarnPct" min="1" max="100" step="1" /><span class="hint">Alert at this % of a campaign&apos;s own budget. Default 80.</span></label>
+          <label class="field">Wasted-spend alert (₹)<input type="number" name="wasteSpendThreshold" min="0" step="1" /><span class="hint">Spend reached with 0 orders. Default 50.</span></label>
+          <label class="field">Re-alert step (₹)<input type="number" name="reAlertStepInr" min="0" step="1" /><span class="hint">Repeat an alert only after spend rises by this much more. Default 50.</span></label>
+          <label class="field">Minimum ROI (optional)<input type="number" name="minRoi" min="0" step="0.1" placeholder="Off" /><span class="hint">Alert if ROI drops below this…</span></label>
+          <label class="field">…after spending (₹)<input type="number" name="roiSpendFloor" min="0" step="1" /><span class="hint">Avoids ROI alerts on brand-new campaigns. Default 100.</span></label>
+        </div>
+      </section>
+
+      <section class="card stack" aria-labelledby="h-schedule">
+        <div class="stack-sm"><h2 id="h-schedule">Schedule</h2><p class="small muted">Checks happen at a random time inside the interval window, so the traffic looks like a human checking the page. Keep checks infrequent.</p></div>
+        <div class="grid-2">
+          <label class="field">Interval min (minutes)<input type="number" name="intervalMinMin" min="10" step="1" /></label>
+          <label class="field">Interval max (minutes)<input type="number" name="intervalMaxMin" min="10" step="1" /></label>
+          <label class="field">Start offset (minutes)<input type="number" name="startOffsetMin" min="0" step="1" /><span class="hint">Use 0, 7, 14… in different profiles so shops don&apos;t check together.</span></label>
+          <label class="field">Active from (IST)<input type="time" name="activeStart" /></label>
+          <label class="field">Active until (IST)<input type="time" name="activeEnd" /></label>
+          <label class="field">Daily heartbeat (IST)<input type="time" name="heartbeatTime" /><span class="hint">A daily &quot;I&apos;m alive&quot; message. Clear it to turn this off.</span></label>
+        </div>
+        <label class="check"><input type="checkbox" name="autoOpenTab" /> <span>Auto-open a pinned Meesho Ads tab if none is open<span class="hint">Recommended. The tab opens in the background and is reused for later checks.</span></span></label>
+      </section>
+
+      <section class="card stack" aria-labelledby="h-notify">
+        <div class="stack-sm"><h2 id="h-notify">Notifications</h2><p class="small muted">Need help with Telegram? See step 5 of the <a href="welcome.html#step-alerts">setup guide</a>.</p></div>
+        <label class="check"><input type="checkbox" name="desktopNotifications" /> <span>Desktop notifications<span class="hint">Used as a fallback even when this is off, if Telegram fails.</span></span></label>
+        <div class="grid-2">
+          <label class="field">Telegram bot token<input type="password" name="telegramBotToken" autocomplete="off" /><span class="hint">Stored locally only. Never exported.</span></label>
+          <label class="field">Telegram chat ID<input type="text" name="telegramChatId" autocomplete="off" /><span class="hint"><button class="btn btn-sm" type="button" id="detectChat">Detect chat ID</button></span></label>
+        </div>
+      </section>
+
+      <section class="card stack" aria-labelledby="h-adv">
+        <div class="stack-sm"><h2 id="h-adv">Advanced</h2><p class="small muted">Paste the Payload of <code>fetch-campaign-list</code> from DevTools → Network. See step 3 of the <a href="welcome.html#step-body">setup guide</a>.</p></div>
+        <label class="field">Request body (JSON)<textarea name="requestBodyJson" spellcheck="false"></textarea></label>
+        <div class="grid-2">
+          <label class="field">Pagination field (optional)<input type="text" name="paginationField" placeholder="e.g. page or offset" /><span class="hint">The name of the page/offset field in the body. Leave empty for a single request.</span></label>
+          <label class="field">Pagination mode
+            <select name="paginationMode"><option value="page">Page number (+1 per page)</option><option value="offset">Offset (+items fetched)</option></select>
+          </label>
+          <label class="field">First page value<input type="number" name="paginationStart" step="1" /><span class="hint">Usually 1 for page numbers, 0 for offsets.</span></label>
+        </div>
+        <label class="check"><input type="checkbox" name="useMockData" /> <span>Use demo data (mock mode)<span class="hint">Uses built-in sample campaigns instead of calling Meesho. Use it only for testing alerts.</span></span></label>
+      </section>
+
+      <section class="card stack" aria-labelledby="h-io">
+        <div class="stack-sm"><h2 id="h-io">Copy settings to another profile</h2><p class="small muted">Export saves limits, schedule and request body. Import keeps this profile&apos;s label, start offset and Telegram token.</p></div>
+        <div class="row">
+          <button class="btn" type="button" id="exportBtn">Export settings</button>
+          <label class="btn" for="importFile">Import settings</label>
+          <input type="file" id="importFile" accept="application/json,.json" class="sr-only" />
+          <span class="status-line" id="ioStatus" role="status"></span>
+        </div>
+      </section>
+
+      <div class="sticky-save row">
+        <button class="btn btn-primary" type="submit">Save settings</button>
+        <span class="status-line" id="saveStatus" role="status"></span>
+      </div>
+    </form>
+  </div>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

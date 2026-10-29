@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Setup guide · Meesho Ads Spend Monitor</title>
+  <link rel="stylesheet" href="ui.css" />
+  <style>
+    .layout { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; display: grid; grid-template-columns: 250px 1fr; gap: 28px; }
+    @media (max-width: 820px) { .layout { grid-template-columns: 1fr; } .toc { position: static !important; } }
+    .toc { position: sticky; top: 24px; align-self: start; display: flex; flex-direction: column; gap: 14px; }
+    .toc nav ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+    .toc nav a { display: flex; gap: 10px; align-items: center; padding: 7px 10px; border-radius: 8px; color: var(--text); text-decoration: none; font-weight: 500; }
+    .toc nav a:hover { background: var(--accent-soft); }
+    .dot { width: 20px; height: 20px; flex: none; border-radius: 50%; border: 2px solid var(--border); display: grid; place-items: center; font-size: 11px; font-weight: 700; color: var(--muted); background: #fff; }
+    .dot.done { background: var(--ok); border-color: var(--ok); color: #fff; }
+    .progress { height: 6px; border-radius: 99px; background: #e9e5ef; overflow: hidden; }
+    .progress > span { display: block; height: 100%; background: var(--ok); width: 0; transition: width .3s; }
+    .hero { display: flex; gap: 16px; align-items: center; }
+    .hero img { width: 56px; height: 56px; border-radius: 14px; }
+    section.step { scroll-margin-top: 20px; }
+    .step-head { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+    .step-num { color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+    .shot { border: 1px dashed var(--border); border-radius: 8px; padding: 10px 12px; background: #fbfafc; font-family: var(--mono); font-size: 12px; color: var(--muted); white-space: pre-wrap; }
+    main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+    .section-title { margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="toc" aria-label="Setup progress">
+      <div class="card stack-sm">
+        <div class="spread"><strong>Setup progress</strong><span id="progressText" class="small muted">0 / 6</span></div>
+        <div class="progress" role="progressbar" aria-labelledby="progressText" id="progressBar"><span></span></div>
+      </div>
+      <nav class="card" style="padding:8px">
+        <ol id="toc">
+          <li><a href="#step-pin"><span class="dot">1</span>Pin the extension</a></li>
+          <li><a href="#step-account"><span class="dot" data-check="account">2</span>Connect your account</a></li>
+          <li><a href="#step-body"><span class="dot" data-check="body">3</span>Copy request body</a></li>
+          <li><a href="#step-limits"><span class="dot" data-check="limits">4</span>Set spend limits</a></li>
+          <li><a href="#step-alerts"><span class="dot" data-check="alerts">5</span>Set up alerts</a></li>
+          <li><a href="#step-test"><span class="dot" data-check="test">6</span>Test alert</a></li>
+          <li><a href="#step-check"><span class="dot" data-check="check">7</span>First check</a></li>
+          <li><a href="#step-profiles"><span class="dot">8</span>More shops</a></li>
+          <li><a href="#daily-use">Daily use</a></li>
+          <li><a href="#troubleshooting">Troubleshooting</a></li>
+        </ol>
+      </nav>
+      <a class="btn" href="options.html">Open all settings</a>
+    </aside>
+
+    <main>
+      <header class="card stack">
+        <div class="hero">
+          <img src="icons/icon128.png" alt="" />
+          <div class="stack-sm">
+            <h1>Welcome to Meesho Ads Spend Monitor</h1>
+            <p class="muted">It checks your Meesho ad spend every 15–25 minutes in the background and alerts you when a campaign burns money. It only reads data. It never logs in for you, never changes campaigns, and never stores your password.</p>
+          </div>
+        </div>
+        <div class="callout small">Setup takes about 5 minutes per Chrome profile. Work through the steps below. Each step turns green when it&apos;s done, and this page updates on its own.</div>
+      </header>
+
+      <!-- Step 1 -->
+      <section class="card step" id="step-pin" aria-labelledby="h-pin">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 1</span><h2 id="h-pin">Pin the extension to your toolbar</h2></div>
+        </div>
+        <ol class="steps-list">
+          <li>Click the puzzle-piece icon (Extensions) at the top right of Chrome.</li>
+          <li>Find <strong>Meesho Ads Spend Monitor</strong> and click the pin icon.</li>
+          <li>The purple icon now sits in your toolbar. Click it any time to see status, run a check, or resume.</li>
+        </ol>
+        <p class="small muted" style="margin-top:10px">The icon badge tells you the state at a glance: no badge = healthy, <strong>SET</strong> = setup incomplete, <strong>!</strong> = paused and needs you.</p>
+      </section>
+
+      <!-- Step 2 -->
+      <section class="card step" id="step-account" aria-labelledby="h-account">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 2</span><h2 id="h-account">Log in to Meesho and open the Ads page</h2></div>
+          <span class="chip" data-chip="account">Not detected</span>
+        </div>
+        <div class="stack">
+          <ol class="steps-list">
+            <li>In <strong>this Chrome profile</strong>, log in to <a href="https://supplier.meesho.com" target="_blank" rel="noopener">supplier.meesho.com</a> as usual, with your phone or email and OTP.</li>
+            <li>Go to <strong>Ads</strong> in the left menu so the URL looks like <code>/panel/v3/new/ads/&lt;id&gt;/advertisement</code>.</li>
+            <li>Keep that tab open. The extension detects your account from it. You never type an ID or password here.</li>
+          </ol>
+          <div class="row">
+            <button class="btn btn-primary" id="openAds" type="button">Open Meesho Ads page</button>
+            <span class="small muted" id="accountInfo"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3 -->
+      <section class="card step" id="step-body" aria-labelledby="h-body">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 3</span><h2 id="h-body">Copy the campaign-list request body (one time)</h2></div>
+          <span class="chip" data-chip="body">Missing</span>
+        </div>
+        <div class="stack">
+          <p class="muted">Meesho&apos;s Ads page sends a small JSON request to load your campaigns. The extension needs that same request body so it asks for exactly what the page asks for. You only do this once. You can then copy it to other profiles with Export/Import.</p>
+          <ol class="steps-list">
+            <li>On the Meesho Ads page, press <kbd>F12</kbd> (or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>) to open DevTools.</li>
+            <li>Open the <strong>Network</strong> tab, then type <code>fetch-campaign-list</code> in the filter box.</li>
+            <li>Reload the page (<kbd>F5</kbd>). A row named <code>fetch-campaign-list</code> appears. Click it.</li>
+            <li>Open the <strong>Payload</strong> tab, click <strong>view source</strong>, and copy the JSON. It&apos;s short, about 80 characters.</li>
+            <li>Paste it below and click <strong>Save body</strong>.</li>
+          </ol>
+          <div class="callout danger small"><strong>Only copy the Payload.</strong> Never copy from the <em>Headers</em> tab or share cookies such as <code>connect.sid</code>, <code>s_id</code> or <code>_abck</code> with anyone. They give full access to your account.</div>
+          <label class="field" for="bodyInput">Request body (JSON)
+            <textarea id="bodyInput" spellcheck="false" placeholder='Paste the Payload JSON here, e.g. {"...": "..."}'></textarea>
+          </label>
+          <div class="row">
+            <button class="btn btn-primary" id="saveBody" type="button">Save body</button>
+            <span class="status-line" id="bodyStatus" role="status"></span>
+          </div>
+          <details class="faq">
+            <summary>The list shows only 10 campaigns. Do I need pagination?</summary>
+            <div class="stack-sm">
+              <p>If the payload has a field like <code>page</code>, <code>offset</code> or <code>page_number</code>, enter its name under <strong>Settings → Advanced → Pagination field</strong>. The extension then fetches up to 3 pages, and only when that&apos;s needed to see all LIVE and today&apos;s campaigns.</p>
+              <p>Tip: if the payload has a status filter, setting it to <code>LIVE</code> is the most efficient choice.</p>
+            </div>
+          </details>
+          <label class="check"><input type="checkbox" id="mockToggle" /> <span>Use demo data for now<span class="hint">Lets you test alerts with sample campaigns before you paste the body. Turn this off once you&apos;re done testing.</span></span></label>
+        </div>
+      </section>
+
+      <!-- Step 4 -->
+      <section class="card step" id="step-limits" aria-labelledby="h-limits">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 4</span><h2 id="h-limits">Set your spend limits</h2></div>
+          <span class="chip" data-chip="limits">Not set</span>
+        </div>
+        <form class="stack" id="limitsForm">
+          <p class="muted">Set at least one of <strong>per-campaign</strong> or <strong>daily total</strong>. All amounts are in ₹. Leave a field empty to turn that rule off.</p>
+          <div class="grid-2">
+            <label class="field">Shop name (label)
+              <input type="text" name="label" placeholder="e.g. Shop A" />
+              <span class="hint">Shown at the start of every alert, so you know which shop it is.</span>
+            </label>
+            <label class="field">Per-campaign limit (₹)
+              <input type="number" name="perCampaignLimit" min="0" step="1" placeholder="e.g. 250" />
+              <span class="hint">Alert when any LIVE campaign has spent this much.</span>
+            </label>
+            <label class="field">Daily total limit (₹)
+              <input type="number" name="dailyTotalLimit" min="0" step="1" placeholder="e.g. 800" />
+              <span class="hint">Alert when today&apos;s campaigns together cross this.</span>
+            </label>
+            <label class="field">Budget warning (%)
+              <input type="number" name="budgetPctWarnPct" min="1" max="100" step="1" placeholder="80" />
+              <span class="hint">Alert when a campaign has used this % of its budget.</span>
+            </label>
+            <label class="field">Wasted-spend alert (₹)
+              <input type="number" name="wasteSpendThreshold" min="0" step="1" placeholder="50" />
+              <span class="hint">Alert when spend reaches this with 0 orders.</span>
+            </label>
+          </div>
+          <div class="row">
+            <button class="btn btn-primary" type="submit">Save limits</button>
+            <span class="status-line" id="limitsStatus" role="status"></span>
+          </div>
+        </form>
+      </section>
+
+      <!-- Step 5 -->
+      <section class="card step" id="step-alerts" aria-labelledby="h-alerts">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 5</span><h2 id="h-alerts">Choose where alerts go</h2></div>
+          <span class="chip" data-chip="alerts">Not set</span>
+        </div>
+        <div class="stack">
+          <label class="check"><input type="checkbox" id="desktopToggle" /> <span>Desktop notifications<span class="hint">Pop-ups on this computer. On Windows, check that Chrome notifications are allowed under Settings → System → Notifications.</span></span></label>
+
+          <div class="card stack" style="background:#fbfafc">
+            <h3>Telegram alerts on your phone (recommended)</h3>
+            <ol class="steps-list">
+              <li>In Telegram, open <a href="https://t.me/BotFather" target="_blank" rel="noopener">@BotFather</a> and send <code>/newbot</code>. Pick any name and username.</li>
+              <li>BotFather replies with a <strong>token</strong> like <code>123456:ABC-xyz…</code>. Paste it below.</li>
+              <li>Open your new bot in Telegram and send it any message, such as <code>/start</code>.</li>
+              <li>Click <strong>Detect chat ID</strong>. The extension finds your chat automatically.</li>
+            </ol>
+            <div class="grid-2">
+              <label class="field">Bot token
+                <input type="password" id="tgToken" autocomplete="off" placeholder="123456:ABC..." />
+                <span class="hint">Stored only on this computer. Never synced or exported.</span>
+              </label>
+              <label class="field">Chat ID
+                <input type="text" id="tgChat" autocomplete="off" placeholder="Click Detect chat ID" />
+                <span class="hint">For a group: add the bot to the group, send a message there, then detect.</span>
+              </label>
+            </div>
+            <div class="row">
+              <button class="btn" id="detectChat" type="button">Detect chat ID</button>
+              <button class="btn btn-primary" id="saveAlerts" type="button">Save alert settings</button>
+              <span class="status-line" id="alertsStatus" role="status"></span>
+            </div>
+            <p class="small muted">Using several shops? Use the <strong>same bot and chat ID</strong> in every profile. Each message starts with the shop name.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 6 -->
+      <section class="card step" id="step-test" aria-labelledby="h-test">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 6</span><h2 id="h-test">Send a test alert</h2></div>
+          <span class="chip" data-chip="test">Not sent</span>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary" id="testAlert" type="button">Send test alert</button>
+          <span class="status-line" id="testStatus" role="status"></span>
+        </div>
+        <p class="small muted" style="margin-top:8px">You should see a desktop pop-up, a Telegram message, or both. If nothing arrives, see Troubleshooting below.</p>
+      </section>
+
+      <!-- Step 7 -->
+      <section class="card step" id="step-check" aria-labelledby="h-check">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 7</span><h2 id="h-check">Run your first check</h2></div>
+          <span class="chip" data-chip="check">Not run</span>
+        </div>
+        <div class="stack">
+          <p class="muted">This reads your campaign list once, through the open Meesho tab, and shows what it found. After that, checks run on their own.</p>
+          <div class="row">
+            <button class="btn btn-primary" id="checkNow" type="button">Check now</button>
+            <span class="status-line" id="checkStatus" role="status"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 8 -->
+      <section class="card step" id="step-profiles" aria-labelledby="h-profiles">
+        <div class="step-head">
+          <div class="stack-sm"><span class="step-num">Step 8 · optional</span><h2 id="h-profiles">Add your other shops (Chrome profiles)</h2></div>
+        </div>
+        <ol class="steps-list">
+          <li>Here, open <strong>Settings → Export settings</strong>. This saves your limits and request body to a file. The Telegram token is left out on purpose.</li>
+          <li>Switch to the next Chrome profile, open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>, click <strong>Load unpacked</strong>, and select the same extension folder.</li>
+          <li>In the new profile, log in to that shop&apos;s Meesho account and open its Ads page (step 2).</li>
+          <li>Open <strong>Settings → Import settings</strong>, then re-enter the Telegram token and give the shop its own label.</li>
+          <li>Set a different <strong>Start offset</strong> per profile (0, 7, 14, 21 minutes…) so the shops don&apos;t all check at the same moment.</li>
+        </ol>
+      </section>
+
+      <h2 class="section-title" id="daily-use">Using it every day</h2>
+
+      <section class="card stack" aria-labelledby="h-keep">
+        <h3 id="h-keep">Keep these running</h3>
+        <ul class="steps-list">
+          <li><strong>Chrome stays open</strong>, with each profile window open (it can be minimized).</li>
+          <li><strong>The Meesho Ads tab stays logged in.</strong> If you close it, the extension reopens it as a small pinned tab (Auto-open tab setting).</li>
+          <li><strong>The PC doesn&apos;t sleep.</strong> On Windows: Settings → System → Power → Sleep → <em>Never</em> while plugged in.</li>
+          <li>Checks only run during your <strong>active hours</strong> (default 08:00–23:00 IST).</li>
+        </ul>
+      </section>
+
+      <section class="card stack" aria-labelledby="h-alerttypes">
+        <h3 id="h-alerttypes">What each alert means</h3>
+        <table class="simple">
+          <thead><tr><th scope="col">Alert</th><th scope="col">Fires when</th><th scope="col">Suggested action</th></tr></thead>
+          <tbody>
+            <tr><td>⚠️ Per-campaign limit</td><td>A LIVE campaign has spent your per-campaign ₹ limit or more</td><td>Open Meesho Ads and decide whether to pause it</td></tr>
+            <tr><td>⚠️ Budget % used</td><td>A LIVE campaign has used your warning % of its budget (default 80%)</td><td>Check whether it is converting before it hits 100%</td></tr>
+            <tr><td>⚠️ Spend with 0 orders</td><td>Spend reached your wasted-spend ₹ amount with no orders</td><td>Usually worth pausing or changing the catalog</td></tr>
+            <tr><td>🚨 Daily limit crossed</td><td>Today&apos;s campaigns together crossed the daily total</td><td>Review all of today&apos;s campaigns</td></tr>
+            <tr><td>⛔ Monitoring paused</td><td>Meesho logged you out, blocked a request, or showed a captcha</td><td>Log in manually, then click <strong>Resume</strong> in the popup</td></tr>
+            <tr><td>💚 Heartbeat</td><td>Once a day (default 21:00): proof the monitor is alive, with today&apos;s spend</td><td>Nothing. If it doesn&apos;t arrive, check that Chrome and the PC are on</td></tr>
+          </tbody>
+        </table>
+        <p class="small muted">Each alert is sent once. You get it again only if spend rises by another ₹50 (Re-alert step setting). Alert memory resets at midnight IST.</p>
+      </section>
+
+      <section class="card stack" aria-labelledby="h-popup">
+        <h3 id="h-popup">The toolbar popup</h3>
+        <ul class="steps-list">
+          <li><strong>Status</strong>: Healthy, Setup needed, or Paused, with the last error if there is one.</li>
+          <li><strong>Live campaigns and today&apos;s spend</strong> from the most recent check.</li>
+          <li><strong>Check now</strong> runs a check immediately. Use it sparingly, because the low frequency keeps your account safe.</li>
+          <li><strong>Resume</strong> appears after a pause. Click it only after you have logged back in to Meesho.</li>
+        </ul>
+      </section>
+
+      <h2 class="section-title" id="troubleshooting">Troubleshooting</h2>
+      <div class="stack">
+        <details class="faq"><summary>Badge shows “SET” or status says “Open the Meesho Ads page once…”</summary><div>Open the Meesho Ads page in this profile (step 2). The account is detected from the page URL. If you use a different Meesho URL, open the Ads section from the Meesho menu.</div></details>
+        <details class="faq"><summary>“Request body not configured” or “not valid JSON”</summary><div>Repeat step 3. Paste only the Payload JSON, which starts with <code>{</code> and ends with <code>}</code>. To check that alerts work without it, tick <em>Use demo data</em>.</div></details>
+        <details class="faq"><summary>Monitoring paused: session expired or blocked</summary><div>Meesho logged you out, or its bot protection challenged the request. Log in again in the Meesho tab and solve any captcha. Then click <strong>Resume</strong> in the popup. After a simple logout, opening the Ads page while logged in also resumes monitoring. The extension never retries on its own here, to protect your account.</div></details>
+        <details class="faq"><summary>Test alert: no desktop pop-up</summary><div>Windows: Settings → System → Notifications → allow Google Chrome, and turn off Focus assist. macOS: System Settings → Notifications → Google Chrome → Allow. Also check that <code>chrome://settings/content/notifications</code> isn&apos;t blocking all notifications.</div></details>
+        <details class="faq"><summary>Telegram: “chat not found” or Detect finds nothing</summary><div>Send any message to your bot first. Bots can&apos;t message you until you do. Then click Detect again. For groups, add the bot to the group and send a message there. If the token was rejected, copy it again from BotFather without extra spaces.</div></details>
+        <details class="faq"><summary>Alerts stopped and no heartbeat arrived</summary><div>Usually Chrome was closed, the PC slept, or it&apos;s outside your active hours. Open the popup to see the last check time and the next scheduled check.</div></details>
+        <details class="faq"><summary>Spend numbers look different from the Meesho dashboard</summary><div>The monitor uses <code>budget_utilised</code> from the same API the Ads page uses, so small differences are usually just timing between checks. “Today” is based on each campaign&apos;s start date in IST.</div></details>
+      </div>
+
+      <section class="callout ok small" aria-label="Safety">
+        <strong>Your account stays safe:</strong> the extension reads your campaign list only through your own open Meesho tab, at most about 3 times an hour. It stops completely if Meesho shows any sign of blocking. It never sees your password or OTP, and it cannot pause, edit or create campaigns.
+      </section>
+    </main>
+  </div>
+  <script type="module" src="welcome.js"></script>
+</body>
+</html>
