@@ -1,0 +1,10 @@
+{
+  "name": "meesho-ads-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Tests only. The extension itself has no dependencies or build step.",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
