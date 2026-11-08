@@ -12,7 +12,7 @@ export const installSteps: GuideStep[] = [
     title: 'Load the extension in Chrome',
     summary: 'Do this once in every Chrome profile that has a Meesho shop.',
     items: [
-      'Download this project (top-right menu → Download ZIP) and unzip it. The extension lives in the extension/ folder.',
+      'Download the extension folder from Google Drive (Download all) and unzip it.',
       'Open chrome://extensions and turn on Developer mode (top right).',
       'Click Load unpacked and select the extension folder, the one that contains manifest.json.',
       'Click the puzzle icon in the toolbar and pin Meesho Ads Spend Monitor.',
@@ -91,14 +91,21 @@ export const setupSteps: GuideStep[] = [
 ]
 
 export const alertTypes = [
-  { name: 'Per-campaign limit', icon: '⚠️', when: 'A LIVE campaign has spent its own ₹ limit (campaign-wise or shop default)', action: 'Decide whether to pause it, or turn on Auto-stop' },
-  { name: 'Campaign stopped', icon: '🛑', when: 'Auto-stop paused a campaign: limit reached and ROI below expected', action: 'Nothing. Restart it in Meesho if you disagree' },
-  { name: 'Could not stop', icon: '❗', when: 'Auto-stop tried to pause a campaign but failed', action: 'Pause it manually in Meesho Ads right away' },
-  { name: 'Budget % used', icon: '⚠️', when: 'A LIVE campaign has used your warning % of its own budget', action: 'Check whether it converts before it reaches 100%' },
-  { name: 'Spend with 0 orders', icon: '⚠️', when: 'Spend reached your wasted-spend amount with no orders', action: 'Usually worth pausing or changing the catalog' },
-  { name: 'Daily limit crossed', icon: '🚨', when: 'Campaigns started today (IST) crossed your daily total', action: 'Review all of today’s campaigns' },
-  { name: 'Monitoring paused', icon: '⛔', when: 'Logout, block (401/403/429), captcha or unexpected response', action: 'Log in to Meesho manually, then click Resume' },
-  { name: 'Heartbeat', icon: '💚', when: 'Once a day (default 21:00 IST) with today’s spend', action: 'Nothing. If it’s missing, check that Chrome and the PC are on' },
+  { name: 'Per-campaign limit', tone: 'warn' as const, when: 'A LIVE campaign has spent its own ₹ limit (campaign-wise or shop default)', action: 'Decide whether to pause it, or turn on Auto-stop' },
+  { name: 'Campaign stopped', tone: 'danger' as const, when: 'Auto-stop paused a campaign: limit reached and ROI below expected', action: 'Nothing. Restart it in Meesho if you disagree' },
+  { name: 'Could not stop', tone: 'danger' as const, when: 'Auto-stop tried to pause a campaign but failed', action: 'Pause it manually in Meesho Ads right away' },
+  { name: 'Budget % used', tone: 'warn' as const, when: 'A LIVE campaign has used your warning % of its own budget', action: 'Check whether it converts before it reaches 100%' },
+  { name: 'Spend with 0 orders', tone: 'warn' as const, when: 'Spend reached your wasted-spend amount with no orders', action: 'Usually worth pausing or changing the catalog' },
+  { name: 'Daily limit crossed', tone: 'danger' as const, when: 'Campaigns started today (IST) crossed your daily total', action: 'Review all of today’s campaigns' },
+  { name: 'Monitoring paused', tone: 'danger' as const, when: 'Logout, block (401/403/429), captcha or unexpected response', action: 'Log in to Meesho manually, then click Resume' },
+  { name: 'Heartbeat', tone: 'ok' as const, when: 'Once a day (default 21:00 IST) with today’s spend', action: 'Nothing. If it’s missing, check that Chrome and the PC are on' },
+]
+
+export const autoStopRules = [
+  { situation: 'Spend below its limit', action: 'Keeps running', tone: 'ok' as const },
+  { situation: 'Spend at limit, no expected ROI set', action: 'Stopped (hard cap)', tone: 'danger' as const },
+  { situation: 'Spend at limit, ROI below expected', action: 'Stopped', tone: 'danger' as const },
+  { situation: 'Spend at limit, ROI at or above expected', action: 'Keeps running, re-checked every cycle', tone: 'ok' as const },
 ]
 
 export const badges = [
