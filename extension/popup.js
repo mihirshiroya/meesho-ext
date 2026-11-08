@@ -70,7 +70,8 @@ async function render() {
       const roiText = c.expectedRoi !== null && c.expectedRoi !== undefined ? `ROI ${c.roi ?? "—"} vs ${c.expectedRoi}` : `ROI ${c.roi ?? "—"}`;
       const tag = c.stopped ? " · STOPPED" : over && c.autoStop && roiLow ? " · stopping" : over ? " · over limit" : "";
       detail.textContent = `₹${(c.spent ?? 0).toLocaleString("en-IN")}${limitText} · ${roiText}${tag}`;
-      if (c.stopped || over) detail.className = "over";
+      detail.className = c.stopped || over ? "detail over" : "detail";
+      if (c.stopped || over) li.className = "is-over";
       li.append(name, detail);
       return li;
     }),

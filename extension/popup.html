@@ -5,48 +5,64 @@
   <title>Meesho Ads Spend Monitor</title>
   <link rel="stylesheet" href="ui.css" />
   <style>
-    body { width: 340px; }
+    body { width: 348px; font-size: 13.5px; }
+    .head { display: flex; align-items: center; gap: 10px; padding: 14px 14px 12px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    .head img { width: 32px; height: 32px; border-radius: 8px; flex: none; }
+    .head .who { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+    .head strong { font-size: 15px; letter-spacing: -0.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .head .acct { font-family: var(--mono); font-size: 11px; color: var(--muted); }
     .wrap { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
     .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px; }
-    .stat b { display: block; font-size: 18px; }
-    .meta { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 12.5px; }
+    .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+    .stat span { font-size: 11.5px; color: var(--muted); }
+    .stat b { display: block; font-family: var(--mono); font-size: 20px; font-weight: 500; letter-spacing: -0.02em; margin-top: 2px; }
+    .meta { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; font-size: 12.5px; margin: 0; padding: 10px 12px; background: var(--sunken); border-radius: 10px; }
     .meta dt { color: var(--muted); }
-    .meta dd { margin: 0; text-align: right; }
+    .meta dd { margin: 0; text-align: right; font-family: var(--mono); font-size: 12px; }
+    .actions { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .actions:has(#resume:not([hidden])) { grid-template-columns: 1fr 1fr; }
+    .section-label { font-family: var(--mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 500; }
+    .setup { padding: 12px; }
+    .setup ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
     .setup li { display: flex; gap: 8px; align-items: center; font-size: 13px; }
-    .setup ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
-    .tick { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border); flex: none; }
+    .tick { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border-strong); flex: none; position: relative; }
     .tick.done { background: var(--ok); border-color: var(--ok); }
-    .alerts { font-size: 12.5px; display: flex; flex-direction: column; gap: 6px; max-height: 140px; overflow: auto; }
-    .alerts p { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; }
-    .campaigns { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow: auto; }
-    .campaigns li { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; font-size: 12.5px; display: flex; flex-direction: column; gap: 2px; }
+    .tick.done::after { content: ""; position: absolute; left: 4.5px; top: 2px; width: 4px; height: 7px; border: solid #fff; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+    .campaigns { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; max-height: 190px; overflow: auto; }
+    .campaigns li { background: var(--surface); border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px; display: flex; flex-direction: column; gap: 2px; }
+    .campaigns li.is-over { border-color: #efc5c0; background: #fdf6f5; }
     .campaigns .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .campaigns .over { color: var(--danger); font-weight: 600; }
-    footer { display: flex; gap: 12px; font-size: 13px; }
+    .campaigns .detail { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+    .campaigns .over { color: var(--danger); font-weight: 500; }
+    .alerts { font-size: 12.5px; display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow: auto; }
+    .alerts p { background: var(--ink); color: var(--ink-text); border-radius: 10px 10px 10px 3px; padding: 8px 10px; line-height: 1.45; overflow-wrap: anywhere; }
+    footer { display: flex; justify-content: space-between; gap: 8px; padding: 10px 14px; border-top: 1px solid var(--border); background: var(--surface); }
+    footer a { font-size: 13px; font-weight: 600; text-decoration: none; padding: 4px 6px; border-radius: 6px; }
+    footer a:hover { background: var(--sunken); }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="spread">
-      <div class="stack-sm" style="gap:0">
-        <strong id="label">Meesho Ads Monitor</strong>
-        <span class="small muted" id="account">—</span>
-      </div>
-      <span class="chip" id="statusChip">…</span>
-    </header>
+  <header class="head">
+    <img src="icons/icon48.png" alt="" />
+    <div class="who">
+      <strong id="label">Meesho Ads Monitor</strong>
+      <span class="acct" id="account">—</span>
+    </div>
+    <span class="chip" id="statusChip">…</span>
+  </header>
 
+  <div class="wrap">
     <div id="errorBox" class="callout danger small" hidden></div>
 
-    <section id="setupBox" class="card setup stack-sm" hidden aria-labelledby="setupTitle" style="padding:12px">
+    <section id="setupBox" class="card setup stack-sm" hidden aria-labelledby="setupTitle">
       <strong id="setupTitle">Finish setup</strong>
       <ul id="setupList"></ul>
-      <a class="btn btn-primary btn-sm" href="welcome.html" target="_blank">Continue setup guide</a>
+      <a class="btn btn-primary btn-sm" href="welcome.html" target="_blank" style="margin-top:4px">Continue setup guide</a>
     </section>
 
     <div class="stats">
-      <div class="stat"><span class="small muted">Live campaigns</span><b id="liveCount">—</b></div>
-      <div class="stat"><span class="small muted">Today&apos;s spend</span><b id="todayTotal">—</b></div>
+      <div class="stat"><span>Live campaigns</span><b id="liveCount">—</b></div>
+      <div class="stat"><span>Today&apos;s spend</span><b id="todayTotal">—</b></div>
     </div>
 
     <dl class="meta">
@@ -54,27 +70,27 @@
       <dt>Next check</dt><dd id="nextCheck">—</dd>
     </dl>
 
-    <div class="row">
+    <div class="actions">
       <button class="btn btn-primary" id="checkNow" type="button">Check now</button>
-      <button class="btn btn-danger" id="resume" type="button" hidden>Resume monitoring</button>
+      <button class="btn btn-danger" id="resume" type="button" hidden>Resume</button>
     </div>
     <p class="status-line" id="checkStatus" role="status"></p>
 
     <section id="campaignsBox" hidden aria-labelledby="campaignsTitle" class="stack-sm">
-      <div class="spread"><strong id="campaignsTitle" class="small">Live campaigns</strong><span class="chip" id="autoStopChip">Auto-stop off</span></div>
+      <div class="spread"><h2 id="campaignsTitle" class="section-label">Live campaigns</h2><span class="chip" id="autoStopChip">Auto-stop off</span></div>
       <ul class="campaigns" id="campaignsList"></ul>
     </section>
 
     <section id="alertsBox" hidden aria-labelledby="alertsTitle" class="stack-sm">
-      <strong id="alertsTitle" class="small">Recent alerts</strong>
+      <h2 id="alertsTitle" class="section-label">Recent alerts</h2>
       <div class="alerts" id="alertsList"></div>
     </section>
-
-    <footer>
-      <a href="options.html" target="_blank">Settings</a>
-      <a href="welcome.html" target="_blank">Setup &amp; help guide</a>
-    </footer>
   </div>
+
+  <footer>
+    <a href="options.html" target="_blank">Settings</a>
+    <a href="welcome.html" target="_blank">Setup &amp; help guide</a>
+  </footer>
   <script type="module" src="popup.js"></script>
 </body>
 </html>
